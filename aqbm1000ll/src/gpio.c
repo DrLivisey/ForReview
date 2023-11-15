@@ -29,9 +29,8 @@ static const struct {
 	{LL_GPIO_MODE_ALTERNATE,	LL_GPIO_OUTPUT_PUSHPULL,	LL_GPIO_PULL_DOWN},
 };
 
-void GPIO_pin_Init(struct gpio_pin *pin, enum port_gpio port, enum gpio_pin_modes mode, [[maybe_unused]] bool state,
-		[[maybe_unused]] uint32_t Alternate){
-  	
+void GPIO_pin_Init(struct gpio_pin *pin, enum port_gpio port)
+{	
 	LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
 	switch (port){
 		case PORT_A:
@@ -59,28 +58,28 @@ void GPIO_pin_Init(struct gpio_pin *pin, enum port_gpio port, enum gpio_pin_mode
 	}
 
   	GPIO_InitStruct.Pin = pin->pin;
-  	GPIO_InitStruct.Mode = _gpio_mode_info[mode].mode;
+  	GPIO_InitStruct.Mode = _gpio_mode_info[pin->mode].mode;
   	GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_VERY_HIGH;
-	GPIO_InitStruct.Pull = _gpio_mode_info[mode].pupd;	
-	if(_gpio_mode_info[mode].mode== LL_GPIO_MODE_OUTPUT)
+	GPIO_InitStruct.Pull = _gpio_mode_info[pin->mode].pupd;	
+	if(_gpio_mode_info[pin->mode].mode== LL_GPIO_MODE_OUTPUT)
 	{
-  		GPIO_InitStruct.OutputType = _gpio_mode_info[mode].otype;
-		SetPinState(pin,state);
+  		GPIO_InitStruct.OutputType = _gpio_mode_info[pin->mode].otype;
+		SetPinState(pin);
 	}
-	if(_gpio_mode_info[mode].mode == LL_GPIO_MODE_ALTERNATE)
+	if(_gpio_mode_info[pin->mode].mode == LL_GPIO_MODE_ALTERNATE)
 	{
-		GPIO_InitStruct.Alternate = Alternate;
+		GPIO_InitStruct.Alternate = pin->Alternate;
 	}
   	LL_GPIO_Init(pin->gpio, &GPIO_InitStruct);
 	
    
 }
 
-void SetPinState(struct gpio_pin *pin, bool state){
-	if(state == Bit_SET){
+void SetPinState(struct gpio_pin *pin){
+	if(pin->state == Bit_SET){
 		LL_GPIO_SetOutputPin(pin->gpio,pin->pin);
 	}
-	else if(state == Bit_RESET){
+	else if(pin->state == Bit_RESET){
 		LL_GPIO_ResetOutputPin(pin->gpio, pin->pin);
 	}
 }

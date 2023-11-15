@@ -41,10 +41,10 @@ struct gpio_pin {
 	uint16_t  pin;
 	enum gpio_pin_modes  mode;
 	bool state;
+	uint32_t Alternate;
 };
 
-void GPIO_pin_Init(struct gpio_pin *pin, enum port_gpio port, enum gpio_pin_modes mode, [[maybe_unused]] bool state,
-		[[maybe_unused]] uint32_t Alternate);
-void SetPinState(struct gpio_pin *pin, bool state);
+void GPIO_pin_Init(struct gpio_pin *pin, enum port_gpio port);
+void SetPinState(struct gpio_pin *pin);
 bool read_gpio_pin_state(struct gpio_pin *pin);
 void toggle_Pin(struct gpio_pin *pin);

@@ -13,8 +13,11 @@ int main(void)
   NVIC_SetPriority(SysTick_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),15, 0));
 
   SystemClock_Config();
-  struct gpio_pin *pin_reset = {GPIOB, LL_GPIO_PIN_7};
-  GPIO_pin_Init(pin_reset, PORT_B, IN_NoPull_GpioPinMode,false,1);
+  struct gpio_pin *pin_reset;
+  pin_reset->gpio = GPIOB;
+  pin_reset->gpio = LL_GPIO_PIN_7;
+  pin_reset->mode = IN_NoPull_GpioPinMode;
+  GPIO_pin_Init(pin_reset, PORT_B);
 
   while (1)
   {
