@@ -2,27 +2,97 @@
 
 
 
-static void UART_Init(void)
+static void UARTx_Init(struct uart_dec *uart, enum usart_enum uartx)
 {
   LL_USART_InitTypeDef USART_InitStruct = {0};
-  struct gpio_pin *uart_pin = {GPIOA, LL_GPIO_PIN_9};
-  GPIO_pin_Init(uart_pin, PORT_A,AF_PP_NoPull_GpioPinMode,false,LL_GPIO_AF_7);
-  uart_pin->pin = LL_GPIO_PIN_10;
-  GPIO_pin_Init(uart_pin, PORT_A,AF_PP_NoPull_GpioPinMode,false,LL_GPIO_AF_7);
-  
-  LL_RCC_SetUSARTClockSource(LL_RCC_USART1_CLKSOURCE_PCLK2);
-  LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_USART1);
-  NVIC_SetPriority(USART1_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),0, 0));
-  NVIC_EnableIRQ(USART1_IRQn);
-
-  USART_InitStruct.BaudRate = 115200;
+  struct gpio_pin *uart_pin;
+  switch (uartx){
+    case UART1:
+    {
+      uart_pin->gpio=GPIOA;
+      uart_pin->pin=LL_GPIO_PIN_9;
+      uart_pin->mode=AF_PP_NoPull_GpioPinMode;
+      uart_pin->Alternate=LL_GPIO_AF_7;
+      GPIO_pin_Init(uart_pin, PORT_A);
+      uart_pin->pin = LL_GPIO_PIN_10;
+      GPIO_pin_Init(uart_pin, PORT_A);
+      LL_RCC_SetUSARTClockSource(LL_RCC_USART1_CLKSOURCE_PCLK2);
+      LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_USART1);
+      NVIC_SetPriority(USART1_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),0, 0));
+      NVIC_EnableIRQ(USART1_IRQn);
+      break;
+    }
+    case UART2:
+    {
+      uart_pin->gpio=GPIOA;
+      uart_pin->pin=LL_GPIO_PIN_2;
+      uart_pin->mode=AF_PP_NoPull_GpioPinMode;
+      uart_pin->Alternate=LL_GPIO_AF_7;
+      GPIO_pin_Init(uart_pin, PORT_A);
+      uart_pin->pin = LL_GPIO_PIN_3;
+      GPIO_pin_Init(uart_pin, PORT_A);
+      LL_RCC_SetUSARTClockSource(LL_RCC_USART2_CLKSOURCE_PCLK1);
+      LL_APB2_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_USART2);
+      NVIC_SetPriority(USART2_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),0, 0));
+      NVIC_EnableIRQ(USART2_IRQn);
+      break;
+    }
+    case UART3:
+    {
+      uart_pin->gpio=GPIOB;
+      uart_pin->pin=LL_GPIO_PIN_10;
+      uart_pin->mode=AF_PP_NoPull_GpioPinMode;
+      uart_pin->Alternate=LL_GPIO_AF_7;
+      GPIO_pin_Init(uart_pin, PORT_A);
+      uart_pin->pin = LL_GPIO_PIN_11;
+      GPIO_pin_Init(uart_pin, PORT_B);
+      LL_RCC_SetUSARTClockSource(LL_RCC_USART3_CLKSOURCE_PCLK1);
+      LL_APB2_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_USART3);
+      NVIC_SetPriority(USART3_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),0, 0));
+      NVIC_EnableIRQ(USART3_IRQn);
+      break;
+    }
+    default:
+    {
+      break;
+    }
+  }
+  USART_InitStruct.BaudRate = uart->BaudRate;
   USART_InitStruct.DataWidth = LL_USART_DATAWIDTH_8B;
-  USART_InitStruct.StopBits = LL_USART_STOPBITS_1;
-  USART_InitStruct.Parity = LL_USART_PARITY_NONE;
-  USART_InitStruct.TransferDirection = LL_USART_DIRECTION_TX_RX;
-  USART_InitStruct.HardwareFlowControl = LL_USART_HWCONTROL_NONE;
-  USART_InitStruct.OverSampling = LL_USART_OVERSAMPLING_16;
-  LL_USART_Init(USART1, &USART_InitStruct);
-  LL_USART_ConfigAsyncMode(USART1);
-  LL_USART_Enable(USART1);
+  USART_InitStruct.StopBits = uart->StopBits;
+  USART_InitStruct.Parity = uart->Parity;
+  USART_InitStruct.TransferDirection = uart->TransferDirection;
+  USART_InitStruct.HardwareFlowControl = uart->HardwareFlowControl;
+  USART_InitStruct.OverSampling = uart->OverSampling;
+
+  LL_USART_Init(uart->uart, &USART_InitStruct);
+  LL_USART_ConfigAsyncMode(uart->uart);
+  LL_USART_Enable(uart->uart);
+}
+uint8_t UARTx_TX(struct uart_dec *uart, uint8_t *message){
+  uint8_t error =-1;
+  if(LL_USART_IsEnabled(uart)){
+    LL_USART_TransmitData8(uart, *message);
+    error=0;
+  }
+  return error;
+}
+
+uint8_t UARTx_RX(struct uart_dec *uart, uint8_t *message){
+  uint8_t error =-1;
+  if(LL_USART_IsEnabled(uart)){
+    *message=LL_USART_ReceiveData8(uart);
+    error=0;
+  }
+  return error;
+}
+uint8_t UART_DeInit(struct uart_dec *uart){
+  uint8_t error=-1;
+  if(LL_USART_IsEnabled(uart))  //Проверка здесь под вопросом
+  {
+    LL_USART_Disable(uart);
+    LL_USART_DeInit(uart);
+    error=0;
+  }
+  return error;
 }
