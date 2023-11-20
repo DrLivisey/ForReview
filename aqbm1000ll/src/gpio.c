@@ -1,9 +1,9 @@
 #include <gpio.h>
-
+/** Структура для поиска необходимых констант режимов работ GPIO*/
 static const struct {
-	uint32_t  mode;
-	uint32_t  otype;
-	uint32_t  pupd;
+	uint32_t  mode; /**< Тип GPIO (in/out/analog/afio)*/
+	uint32_t  otype; /**< Тип выхода GPIO (PushPull/OpenDrain)*/
+	uint32_t  pupd; /**< Тип подтяжки (Up/Down/No)*/
 
 } _gpio_mode_info[] = {
 	{LL_GPIO_MODE_INPUT,	LL_GPIO_OUTPUT_PUSHPULL,	LL_GPIO_PULL_NO},
@@ -32,6 +32,7 @@ static const struct {
 void GPIO_pin_Init(struct gpio_pin *pin, enum port_gpio port)
 {	
 	LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
+	/* В зависимости от enum port включается тактирование необходимого порта*/
 	switch (port){
 		case PORT_A:
 		{
@@ -60,12 +61,14 @@ void GPIO_pin_Init(struct gpio_pin *pin, enum port_gpio port)
   	GPIO_InitStruct.Pin = pin->pin;
   	GPIO_InitStruct.Mode = _gpio_mode_info[pin->mode].mode;
   	GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_VERY_HIGH;
-	GPIO_InitStruct.Pull = _gpio_mode_info[pin->mode].pupd;	
+	GPIO_InitStruct.Pull = _gpio_mode_info[pin->mode].pupd;
+	/*Если инициализируется выходной пин, выставляется тип выхода и его стартовое значение*/	
 	if(_gpio_mode_info[pin->mode].mode== LL_GPIO_MODE_OUTPUT)
 	{
   		GPIO_InitStruct.OutputType = _gpio_mode_info[pin->mode].otype;
 		SetPinState(pin);
 	}
+	/*Если Инициализируется альтернативная функция, записывается номер альтернативной функции*/
 	if(_gpio_mode_info[pin->mode].mode == LL_GPIO_MODE_ALTERNATE)
 	{
 		GPIO_InitStruct.Alternate = pin->Alternate;
@@ -85,6 +88,7 @@ void SetPinState(struct gpio_pin *pin){
 }
 
 bool read_gpio_pin_state(struct gpio_pin *pin){
+	/*Считывается значение с пина и возвращается в качестве вывода функции в зависимости от полученного значения*/
 	return (LL_GPIO_IsInputPinSet(pin->gpio, pin->pin) == Bit_SET ? Bit_SET : Bit_RESET);
 }
 void toggle_Pin(struct gpio_pin *pin){
