@@ -37,7 +37,7 @@ enum gpio_pin_modes {
 
 	Count_GpioPinMode
 };
-/** PДискриптор пина*/
+/** Дискриптор пина*/
 struct gpio_pin {
 	/** GPIO_TypeDef*/
 	GPIO_TypeDef  *gpio;
