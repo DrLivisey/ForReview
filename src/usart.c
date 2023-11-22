@@ -23,7 +23,7 @@ static void UARTx_Init(struct uart_dec *uart, enum usart_enum uartx)
       NVIC_EnableIRQ(USART1_IRQn);
       break;
     }
-    /*В слаче выбора usart2 настраивается порт А и 2 пин на передачу, 3 - на прием*/
+    /*В слаче выбора usart2 настраивается порт А и 2 пин на передачу, 31 - на прием*/
     case UART2:
     {
       uart_pin->gpio=GPIOA;
