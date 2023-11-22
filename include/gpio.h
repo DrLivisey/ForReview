@@ -37,7 +37,7 @@ enum gpio_pin_modes {
 
 	Count_GpioPinMode
 };
-/** PДискриптор пина*/
+/** Дискриптор пина*/
 struct gpio_pin {
 	/** GPIO_TypeDef*/
 	GPIO_TypeDef  *gpio;
@@ -45,7 +45,7 @@ struct gpio_pin {
 	uint16_t  pin;
 	/** Тип выхода, подтяжки, тип выхода*/
 	enum gpio_pin_modes  mode;
-	/** (maybe unused) Значение выходного пина/
+	/** (maybe unused) Значение выходного пина*/
 	bool state;
 	/** (maybe unused)номер альтернативной функции в формате LL (LL_GPIO_AF_x)*/
 	uint32_t Alternate;

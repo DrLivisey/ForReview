@@ -97,19 +97,19 @@ CMakeFiles/aqbm1000ll.dir/src/main.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/aqbm1000ll.dir/src/main.c.s"
 	/usr/bin/arm-none-eabi-gcc --sysroot=/usr/arm-none-eabi $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/egor/Documents/aqbm1000ll/src/main.c -o CMakeFiles/aqbm1000ll.dir/src/main.c.s
 
-CMakeFiles/aqbm1000ll.dir/src/uart.c.obj: CMakeFiles/aqbm1000ll.dir/flags.make
-CMakeFiles/aqbm1000ll.dir/src/uart.c.obj: ../src/uart.c
-CMakeFiles/aqbm1000ll.dir/src/uart.c.obj: CMakeFiles/aqbm1000ll.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/egor/Documents/aqbm1000ll/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/aqbm1000ll.dir/src/uart.c.obj"
-	/usr/bin/arm-none-eabi-gcc --sysroot=/usr/arm-none-eabi $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/aqbm1000ll.dir/src/uart.c.obj -MF CMakeFiles/aqbm1000ll.dir/src/uart.c.obj.d -o CMakeFiles/aqbm1000ll.dir/src/uart.c.obj -c /home/egor/Documents/aqbm1000ll/src/uart.c
+CMakeFiles/aqbm1000ll.dir/src/usart.c.obj: CMakeFiles/aqbm1000ll.dir/flags.make
+CMakeFiles/aqbm1000ll.dir/src/usart.c.obj: ../src/usart.c
+CMakeFiles/aqbm1000ll.dir/src/usart.c.obj: CMakeFiles/aqbm1000ll.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/egor/Documents/aqbm1000ll/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/aqbm1000ll.dir/src/usart.c.obj"
+	/usr/bin/arm-none-eabi-gcc --sysroot=/usr/arm-none-eabi $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/aqbm1000ll.dir/src/usart.c.obj -MF CMakeFiles/aqbm1000ll.dir/src/usart.c.obj.d -o CMakeFiles/aqbm1000ll.dir/src/usart.c.obj -c /home/egor/Documents/aqbm1000ll/src/usart.c
 
-CMakeFiles/aqbm1000ll.dir/src/uart.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/aqbm1000ll.dir/src/uart.c.i"
-	/usr/bin/arm-none-eabi-gcc --sysroot=/usr/arm-none-eabi $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/egor/Documents/aqbm1000ll/src/uart.c > CMakeFiles/aqbm1000ll.dir/src/uart.c.i
+CMakeFiles/aqbm1000ll.dir/src/usart.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/aqbm1000ll.dir/src/usart.c.i"
+	/usr/bin/arm-none-eabi-gcc --sysroot=/usr/arm-none-eabi $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/egor/Documents/aqbm1000ll/src/usart.c > CMakeFiles/aqbm1000ll.dir/src/usart.c.i
 
-CMakeFiles/aqbm1000ll.dir/src/uart.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/aqbm1000ll.dir/src/uart.c.s"
-	/usr/bin/arm-none-eabi-gcc --sysroot=/usr/arm-none-eabi $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/egor/Documents/aqbm1000ll/src/uart.c -o CMakeFiles/aqbm1000ll.dir/src/uart.c.s
+CMakeFiles/aqbm1000ll.dir/src/usart.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/aqbm1000ll.dir/src/usart.c.s"
+	/usr/bin/arm-none-eabi-gcc --sysroot=/usr/arm-none-eabi $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/egor/Documents/aqbm1000ll/src/usart.c -o CMakeFiles/aqbm1000ll.dir/src/usart.c.s
 
 CMakeFiles/aqbm1000ll.dir/STM32Cube_FW_L4_V1.18.0/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_gpio.c.obj: CMakeFiles/aqbm1000ll.dir/flags.make
 CMakeFiles/aqbm1000ll.dir/STM32Cube_FW_L4_V1.18.0/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_gpio.c.obj: ../STM32Cube_FW_L4_V1.18.0/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_gpio.c
@@ -226,7 +226,7 @@ CMakeFiles/aqbm1000ll.dir/STM32Cube_FW_L4_V1.18.0/Drivers/CMSIS/Device/ST/STM32L
 aqbm1000ll_OBJECTS = \
 "CMakeFiles/aqbm1000ll.dir/src/gpio.c.obj" \
 "CMakeFiles/aqbm1000ll.dir/src/main.c.obj" \
-"CMakeFiles/aqbm1000ll.dir/src/uart.c.obj" \
+"CMakeFiles/aqbm1000ll.dir/src/usart.c.obj" \
 "CMakeFiles/aqbm1000ll.dir/STM32Cube_FW_L4_V1.18.0/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_gpio.c.obj" \
 "CMakeFiles/aqbm1000ll.dir/STM32Cube_FW_L4_V1.18.0/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_rcc.c.obj" \
 "CMakeFiles/aqbm1000ll.dir/STM32Cube_FW_L4_V1.18.0/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_exti.c.obj" \
@@ -241,7 +241,7 @@ aqbm1000ll_EXTERNAL_OBJECTS =
 
 aqbm1000ll.elf: CMakeFiles/aqbm1000ll.dir/src/gpio.c.obj
 aqbm1000ll.elf: CMakeFiles/aqbm1000ll.dir/src/main.c.obj
-aqbm1000ll.elf: CMakeFiles/aqbm1000ll.dir/src/uart.c.obj
+aqbm1000ll.elf: CMakeFiles/aqbm1000ll.dir/src/usart.c.obj
 aqbm1000ll.elf: CMakeFiles/aqbm1000ll.dir/STM32Cube_FW_L4_V1.18.0/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_gpio.c.obj
 aqbm1000ll.elf: CMakeFiles/aqbm1000ll.dir/STM32Cube_FW_L4_V1.18.0/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_rcc.c.obj
 aqbm1000ll.elf: CMakeFiles/aqbm1000ll.dir/STM32Cube_FW_L4_V1.18.0/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_exti.c.obj

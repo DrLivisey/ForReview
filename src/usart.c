@@ -1,4 +1,4 @@
-#include <uart.h>
+#include <usart.h>
 
 
 
@@ -7,6 +7,7 @@ static void UARTx_Init(struct uart_dec *uart, enum usart_enum uartx)
   LL_USART_InitTypeDef USART_InitStruct = {0};
   struct gpio_pin *uart_pin;
   switch (uartx){
+    /*В слаче выбора usart1 настраивается порт А и 9 пин на передачу, 10 - на прием*/
     case UART1:
     {
       uart_pin->gpio=GPIOA;
@@ -22,6 +23,7 @@ static void UARTx_Init(struct uart_dec *uart, enum usart_enum uartx)
       NVIC_EnableIRQ(USART1_IRQn);
       break;
     }
+    /*В слаче выбора usart2 настраивается порт А и 2 пин на передачу, 3 - на прием*/
     case UART2:
     {
       uart_pin->gpio=GPIOA;
@@ -37,6 +39,7 @@ static void UARTx_Init(struct uart_dec *uart, enum usart_enum uartx)
       NVIC_EnableIRQ(USART2_IRQn);
       break;
     }
+    /*В слаче выбора usart3 настраивается порт В и 10 пин на передачу, 11 - на прием*/
     case UART3:
     {
       uart_pin->gpio=GPIOB;
@@ -62,7 +65,6 @@ static void UARTx_Init(struct uart_dec *uart, enum usart_enum uartx)
   USART_InitStruct.StopBits = uart->StopBits;
   USART_InitStruct.Parity = uart->Parity;
   USART_InitStruct.TransferDirection = uart->TransferDirection;
-  USART_InitStruct.HardwareFlowControl = uart->HardwareFlowControl;
   USART_InitStruct.OverSampling = uart->OverSampling;
 
   LL_USART_Init(uart->uart, &USART_InitStruct);
@@ -71,7 +73,7 @@ static void UARTx_Init(struct uart_dec *uart, enum usart_enum uartx)
 }
 uint8_t UARTx_TX(struct uart_dec *uart, uint8_t *message){
   uint8_t error =-1;
-  if(LL_USART_IsEnabled(uart)){
+  if(LL_USART_IsEnabled(uart)){ //Проверка включения usartx 
     LL_USART_TransmitData8(uart, *message);
     error=0;
   }
@@ -80,7 +82,7 @@ uint8_t UARTx_TX(struct uart_dec *uart, uint8_t *message){
 
 uint8_t UARTx_RX(struct uart_dec *uart, uint8_t *message){
   uint8_t error =-1;
-  if(LL_USART_IsEnabled(uart)){
+  if(LL_USART_IsEnabled(uart)){ //Проверка включения usartx 
     *message=LL_USART_ReceiveData8(uart);
     error=0;
   }
@@ -88,7 +90,7 @@ uint8_t UARTx_RX(struct uart_dec *uart, uint8_t *message){
 }
 uint8_t UART_DeInit(struct uart_dec *uart){
   uint8_t error=-1;
-  if(LL_USART_IsEnabled(uart))  //Проверка здесь под вопросом
+  if(LL_USART_IsEnabled(uart))  //Проверка включения usartx 
   {
     LL_USART_Disable(uart);
     LL_USART_DeInit(uart);

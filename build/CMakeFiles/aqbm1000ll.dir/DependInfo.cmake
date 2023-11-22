@@ -40,7 +40,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/egor/Documents/aqbm1000ll/STM32Cube_FW_L4_V1.18.0/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_utils.c" "CMakeFiles/aqbm1000ll.dir/STM32Cube_FW_L4_V1.18.0/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_utils.c.obj" "gcc" "CMakeFiles/aqbm1000ll.dir/STM32Cube_FW_L4_V1.18.0/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_utils.c.obj.d"
   "/home/egor/Documents/aqbm1000ll/src/gpio.c" "CMakeFiles/aqbm1000ll.dir/src/gpio.c.obj" "gcc" "CMakeFiles/aqbm1000ll.dir/src/gpio.c.obj.d"
   "/home/egor/Documents/aqbm1000ll/src/main.c" "CMakeFiles/aqbm1000ll.dir/src/main.c.obj" "gcc" "CMakeFiles/aqbm1000ll.dir/src/main.c.obj.d"
-  "/home/egor/Documents/aqbm1000ll/src/uart.c" "CMakeFiles/aqbm1000ll.dir/src/uart.c.obj" "gcc" "CMakeFiles/aqbm1000ll.dir/src/uart.c.obj.d"
+  "/home/egor/Documents/aqbm1000ll/src/usart.c" "CMakeFiles/aqbm1000ll.dir/src/usart.c.obj" "gcc" "CMakeFiles/aqbm1000ll.dir/src/usart.c.obj.d"
   )
 
 # Targets to which this target links.

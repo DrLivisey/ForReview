@@ -379,29 +379,29 @@ src/main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/aqbm1000ll.dir/build.make CMakeFiles/aqbm1000ll.dir/src/main.c.s
 .PHONY : src/main.c.s
 
-src/uart.obj: src/uart.c.obj
-.PHONY : src/uart.obj
+src/usart.obj: src/usart.c.obj
+.PHONY : src/usart.obj
 
 # target to build an object file
-src/uart.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/aqbm1000ll.dir/build.make CMakeFiles/aqbm1000ll.dir/src/uart.c.obj
-.PHONY : src/uart.c.obj
+src/usart.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/aqbm1000ll.dir/build.make CMakeFiles/aqbm1000ll.dir/src/usart.c.obj
+.PHONY : src/usart.c.obj
 
-src/uart.i: src/uart.c.i
-.PHONY : src/uart.i
+src/usart.i: src/usart.c.i
+.PHONY : src/usart.i
 
 # target to preprocess a source file
-src/uart.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/aqbm1000ll.dir/build.make CMakeFiles/aqbm1000ll.dir/src/uart.c.i
-.PHONY : src/uart.c.i
+src/usart.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/aqbm1000ll.dir/build.make CMakeFiles/aqbm1000ll.dir/src/usart.c.i
+.PHONY : src/usart.c.i
 
-src/uart.s: src/uart.c.s
-.PHONY : src/uart.s
+src/usart.s: src/usart.c.s
+.PHONY : src/usart.s
 
 # target to generate assembly for a file
-src/uart.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/aqbm1000ll.dir/build.make CMakeFiles/aqbm1000ll.dir/src/uart.c.s
-.PHONY : src/uart.c.s
+src/usart.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/aqbm1000ll.dir/build.make CMakeFiles/aqbm1000ll.dir/src/usart.c.s
+.PHONY : src/usart.c.s
 
 # Help Target
 help:
@@ -442,9 +442,9 @@ help:
 	@echo "... src/main.obj"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
-	@echo "... src/uart.obj"
-	@echo "... src/uart.i"
-	@echo "... src/uart.s"
+	@echo "... src/usart.obj"
+	@echo "... src/usart.i"
+	@echo "... src/usart.s"
 .PHONY : help
 
 
