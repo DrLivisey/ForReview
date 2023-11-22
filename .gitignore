@@ -1,5 +1,4 @@
-build/
-.ssh/
-.vscode/
+/build/
+/.ssh/
+/.vscode/
 .project
-
