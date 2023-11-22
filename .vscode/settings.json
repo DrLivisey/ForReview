@@ -1,6 +1,0 @@
-{
-    "files.associations": {
-        "stm32l4xx_ll_gpio.h": "c"
-    },
-    "search.quickOpen.includeSymbols": true
-}
