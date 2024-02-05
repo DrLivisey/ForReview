@@ -1,4 +1,13 @@
+/**
+  ******************************************************************************
+  * @file    gpio.c
+  * @author  Makhinov Egor
+  * @brief   gpio module.
+  ******************************************************************************
+  */
+
 #include <stdint.h>
+
 #include "gpio.h"
 #include "stm32l4xx_ll_rcc.h"
 #include "stm32l4xx_ll_bus.h"
