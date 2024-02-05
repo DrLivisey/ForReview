@@ -17,7 +17,7 @@ int main(void)
   pin_reset->gpio = GPIOB;
   pin_reset->pin = LL_GPIO_PIN_7;
   pin_reset->mode = IN_NOPULL_GPIO_PIN_MODE;
-  GPIO_pin_Init(pin_reset, PORT_B);
+  gpio_pin_init(pin_reset, PORT_B);
 
   while (1)
   {

@@ -29,7 +29,7 @@ set(INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set(SOURCES
   ${SOURCE_DIR}/gpio.c
   ${SOURCE_DIR}/main.c
-  ${SOURCE_DIR}/usart.c
+  ${SOURCE_DIR}/uart.c
 )
 
 
