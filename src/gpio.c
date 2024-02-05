@@ -60,29 +60,29 @@ void gpio_pin_init(struct gpio_pin_desc *pin, enum gpio_pin_port port)
   	gpio_init_struct.Speed = LL_GPIO_SPEED_FREQ_VERY_HIGH;
 	gpio_init_struct.Pull = gpio_mode_info[pin->mode].pupd;
 	/*Если инициализируется выходной пин, выставляется тип выхода и его стартовое значение*/	
-	if(gpio_mode_info[pin->mode].mode== LL_GPIO_MODE_OUTPUT){
+	if(gpio_mode_info[pin->mode].mode == LL_GPIO_MODE_OUTPUT){
   		gpio_init_struct.OutputType = gpio_mode_info[pin->mode].otype;
 		gpio_pin_set_state(pin);
 	}
 	/*Если Инициализируется альтернативная функция, записывается номер альтернативной функции*/
 	if(gpio_mode_info[pin->mode].mode == LL_GPIO_MODE_ALTERNATE)
 		gpio_init_struct.Alternate = pin->alternate;
-  	LL_GPIO_Init(pin->gpio, &gpio_init_struct);
+  	LL_GPIO_Init(pin->gpio_td, &gpio_init_struct);
 }
 
 void gpio_pin_set_state(struct gpio_pin_desc *pin)
 {
 	if(pin->state == BIT_SET)
-		LL_GPIO_SetOutputPin(pin->gpio,pin->pin);
+		LL_GPIO_SetOutputPin(pin->gpio_td,pin->pin);
 	else if(pin->state == BIT_RESET)
-		LL_GPIO_ResetOutputPin(pin->gpio, pin->pin);
+		LL_GPIO_ResetOutputPin(pin->gpio_td, pin->pin);
 }
 
 bool gpio_pin_read_state(struct gpio_pin_desc *pin)
 {
-	return (LL_GPIO_IsInputPinSet(pin->gpio, pin->pin) == BIT_SET ? BIT_SET : BIT_RESET);
+	return (LL_GPIO_IsInputPinSet(pin->gpio_td, pin->pin) == BIT_SET ? BIT_SET : BIT_RESET);
 }
 void gpio_pin_toggle(struct gpio_pin_desc *pin)
 {
-	LL_GPIO_TogglePin(pin->gpio, pin->pin);
+	LL_GPIO_TogglePin(pin->gpio_td, pin->pin);
 }

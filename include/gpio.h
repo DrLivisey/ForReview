@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 #include <stdint.h>
+
 #include "stm32l4xx_ll_gpio.h"
 
 
@@ -44,7 +45,7 @@ enum gpio_pin_modes {
 /** Дискриптор пина*/
 struct gpio_pin_desc {
 	/** GPIO_TypeDef*/
-	GPIO_TypeDef  *gpio;
+	GPIO_TypeDef  *gpio_td;
 	/** Номер пина в формате LL (LL_GPIO_PIN_x)*/
 	uint16_t  pin;
 	/** Тип выхода, подтяжки, тип выхода*/
