@@ -1,11 +1,15 @@
-#include "stm32l4xx_ll_gpio.h"
-#include "stm32l4xx_ll_rcc.h"
-#include "stm32l4xx_ll_bus.h"
+#ifndef GPIO_PIN
+#define GPIO_PIN
+
 #include <stdbool.h>
-#define Bit_RESET false
-#define Bit_SET true
+#include <stdint.h>
+#include "stm32l4xx_ll_gpio.h"
+
+
+#define BIT_RESET false
+#define BIT_SET true
 /** Название порта в котором находится пин*/
-enum port_gpio{
+enum gpio_pin_port {
 	PORT_A,
 	PORT_B,
 	PORT_C,
@@ -13,32 +17,32 @@ enum port_gpio{
 };
 /** Режимы пинов In/out/analog/afio Pull Up/Down/No Otype OpenDrain/PushPull */
 enum gpio_pin_modes {
-	IN_NoPull_GpioPinMode,
-	IN_PullUp_GpioPinMode,
-	IN_PullDown_GpioPinMode,
+	IN_NOPULL_GPIO_PIN_MODE,
+	IN_PULLUP_GPIO_PIN_MODE,
+	IN_PULLDOWN_GPIO_PIN_MODE,
 
-	ANALOG_GpioPinMode,
+	ANALOG_GPIO_PIN_MODE,
 
-	OUT_OD_NoPull_GpioPinMode,
-	OUT_OD_PullUp_GpioPinMode,
-	OUT_OD_PullDown_GpioPinMode,
+	OUT_OD_NOPULL_GPIO_PIN_MODE,
+	OUT_OD_PULLUP_GPIO_PIN_MODE,
+	OUT_OD_PULLDOWN_GPIO_PIN_MODE,
 
-	OUT_PP_NoPull_GpioPinMode,
-	OUT_PP_PullUp_GpioPinMode,
-	OUT_PP_PullDown_GpioPinMode,
+	OUT_PP_NOPULL_GPIO_PIN_MODE,
+	OUT_PP_PULLUP_GPIO_PIN_MODE,
+	OUT_PP_PULLDOWN_GPIO_PIN_MODE,
 
-	AF_OD_NoPull_GpioPinMode,
-	AF_OD_PullUp_GpioPinMode,
-	AF_OD_PullDown_GpioPinMode,
+	AF_OD_NOPULL_GPIO_PIN_MODE,
+	AF_OD_PULLUP_GPIO_PIN_MODE,
+	AF_OD_PULLDOWN_GPIO_PIN_MODE,
 
-	AF_PP_NoPull_GpioPinMode,
-	AF_PP_PullUp_GpioPinMode,
-	AF_PP_PullDown_GpioPinMode,
+	AF_PP_NOPULL_GPIO_PIN_MODE,
+	AF_PP_PULLUP_GPIO_PIN_MODE,
+	AF_PP_PULLDOWN_GPIO_PIN_MODE,
 
-	Count_GpioPinMode
+	Count_GPIO_PIN_MODE
 };
 /** Дискриптор пина*/
-struct gpio_pin {
+struct gpio_pin_desc {
 	/** GPIO_TypeDef*/
 	GPIO_TypeDef  *gpio;
 	/** Номер пина в формате LL (LL_GPIO_PIN_x)*/
@@ -48,7 +52,7 @@ struct gpio_pin {
 	/** (maybe unused) Значение выходного пина*/
 	bool state;
 	/** (maybe unused)номер альтернативной функции в формате LL (LL_GPIO_AF_x)*/
-	uint32_t Alternate;
+	uint32_t alternate;
 };
 /**
   * @brief	Ининциализация выбранного пина
@@ -58,7 +62,7 @@ struct gpio_pin {
   *
   * @retval	none
   */
-void GPIO_pin_Init(struct gpio_pin *pin, enum port_gpio port);
+void gpio_pin_init(struct gpio_pin_desc *pin, enum gpio_pin_port port);
 /**
   * @brief	Изменение состояния выходного пина
   *
@@ -66,7 +70,7 @@ void GPIO_pin_Init(struct gpio_pin *pin, enum port_gpio port);
   *
   * @retval	none
   */
-void SetPinState(struct gpio_pin *pin);
+void gpio_pin_set_state(struct gpio_pin_desc *pin);
 /**
   * @brief	Чтение состояния входного пина
   *
@@ -74,7 +78,7 @@ void SetPinState(struct gpio_pin *pin);
   *
   * @retval	bool текущее состояние на входе пина
   */
-bool read_gpio_pin_state(struct gpio_pin *pin);
+bool gpio_pin_read_state(struct gpio_pin_desc *pin);
 /**
   * @brief	Моргание пином
   *
@@ -82,4 +86,6 @@ bool read_gpio_pin_state(struct gpio_pin *pin);
   *
   * @retval	 none
   */
-void toggle_Pin(struct gpio_pin *pin);
+void gpio_pin_toggle(struct gpio_pin_desc *pin);
+
+#endif /*GPIO_PIN*/

@@ -13,10 +13,10 @@ struct uart_dec {
 	USART_TypeDef *uart; /**< USART_TypeDef*/
 	enum usart_enum usartx; /**< Выбранный USART из пронумированного списка*/
 	uint32_t BaudRate; /**< Битрейт в формате LL*/
-    uint32_t StopBits;/**< Количество стоповых бит в формате LL*/
-    uint32_t Parity;/**< Проверка четности в формате LL*/
-    uint32_t TransferDirection;/**< Направление передачи в формате LL*/
-    uint32_t OverSampling;/**< передискретизация в формате LL*/
+  uint32_t StopBits;/**< Количество стоповых бит в формате LL*/
+  uint32_t Parity;/**< Проверка четности в формате LL*/
+  uint32_t TransferDirection;/**< Направление передачи в формате LL*/
+  uint32_t OverSampling;/**< передискретизация в формате LL*/
 };
 /**
   * @brief	Ининциализация выбранного usart
@@ -26,7 +26,7 @@ struct uart_dec {
   *
   * @retval	none
   */
-static void UARTx_Init (struct uart_dec *uart, enum usart_enum uartx);
+void UARTx_Init (struct uart_dec *uart, enum usart_enum uartx);
 /**
   * @brief	Передача сообщения по выбранному usart
   *
