@@ -7,7 +7,7 @@
   */
 
 #include <stdint.h>
-
+#include <assert.h>
 #include "gpio.h"
 #include "stm32l4xx_ll_rcc.h"
 #include "stm32l4xx_ll_bus.h"
@@ -61,6 +61,7 @@ void gpio_pin_init(struct gpio_pin_desc *pin, enum gpio_pin_port port)
 				LL_AHB2_GRP1_EnableClock(LL_AHB2_GRP1_PERIPH_GPIOH);
 				break;
 		default:
+				assert(true);
 				break;
 	}
 
