@@ -3,6 +3,11 @@
 
 #include <stdint.h>
 #include "stm32l4xx_ll_usart.h"
+
+#ifndef MAYBE_BUILD_BUG_ON
+#define MAYBE_BUILD_BUG_ON(cond) ((void)sizeof(char[1-2*!(cond)]))
+#endif /*MAYBE_BUILD_BUG_ON*/
+
 /** Пронумированный список всех доступных usart*/
 enum uart_enum {
 	UART1,
