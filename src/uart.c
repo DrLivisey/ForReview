@@ -7,6 +7,7 @@
   */
  
 #include <stdint.h>
+#include <assert.h>
 
 #include "uart.h"
 #include "gpio.h"
@@ -62,6 +63,7 @@ void uart_init(struct uart_desc *uart)
         NVIC_EnableIRQ(USART3_IRQn);
         break;
     default:
+        assert(true);
         break;
     
   }
