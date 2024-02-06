@@ -62,7 +62,6 @@ void uart_init(struct uart_desc *uart)
         NVIC_EnableIRQ(USART3_IRQn);
         break;
     default:
-        MAYBE_BUILD_BUG_ON(1);
         break;
     
   }
