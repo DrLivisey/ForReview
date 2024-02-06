@@ -14,7 +14,7 @@ int main(void)
 
   SystemClock_Config();
   struct gpio_pin_desc *pin_reset;
-  pin_reset->gpio = GPIOB;
+  pin_reset->gpio_td = GPIOB;
   pin_reset->pin = LL_GPIO_PIN_7;
   pin_reset->mode = IN_NOPULL_GPIO_PIN_MODE;
   gpio_pin_init(pin_reset, PORT_B);

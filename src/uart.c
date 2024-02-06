@@ -21,7 +21,7 @@ void uart_init(struct uart_desc *uart)
   switch (uart->uart_num) {
     /*В слаче выбора usart1 настраивается порт А и 9 пин на передачу, 10 - на прием*/
     case UART1:
-        uart_pin->gpio = GPIOA;
+        uart_pin->gpio_td = GPIOA;
         uart_pin->pin = LL_GPIO_PIN_9;
         uart_pin->mode = AF_PP_NOPULL_GPIO_PIN_MODE;
         uart_pin->alternate = LL_GPIO_AF_7;
@@ -35,7 +35,7 @@ void uart_init(struct uart_desc *uart)
         break;
     /*В слаче выбора usart2 настраивается порт А и 2 пин на передачу, 31 - на прием*/
     case UART2:
-        uart_pin->gpio = GPIOA;
+        uart_pin->gpio_td = GPIOA;
         uart_pin->pin = LL_GPIO_PIN_2;
         uart_pin->mode = AF_PP_NOPULL_GPIO_PIN_MODE;
         uart_pin->alternate = LL_GPIO_AF_7;
@@ -49,7 +49,7 @@ void uart_init(struct uart_desc *uart)
         break;
     /*В слаче выбора usart3 настраивается порт В и 10 пин на передачу, 11 - на прием*/
     case UART3:
-        uart_pin->gpio = GPIOB;
+        uart_pin->gpio_td = GPIOB;
         uart_pin->pin = LL_GPIO_PIN_10;
         uart_pin->mode = AF_PP_NOPULL_GPIO_PIN_MODE;
         uart_pin->alternate = LL_GPIO_AF_7;

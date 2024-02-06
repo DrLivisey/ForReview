@@ -14,7 +14,6 @@
 
 #include "stm32l4xx_ll_gpio.h"
 
-
 #define BIT_RESET false
 #define BIT_SET true
 /** Название порта в котором находится пин*/
@@ -22,6 +21,8 @@ enum gpio_pin_port {
 	PORT_A,
 	PORT_B,
 	PORT_C,
+  PORT_D,
+  PORT_E,
 	PORT_H
 };
 /** Режимы пинов In/out/analog/afio Pull Up/Down/No Otype OpenDrain/PushPull */
