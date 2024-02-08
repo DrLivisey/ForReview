@@ -18,12 +18,12 @@
 #define BIT_SET true
 /** Название порта в котором находится пин*/
 enum gpio_pin_port {
-	PORT_A,
-	PORT_B,
-	PORT_C,
+  PORT_A,
+  PORT_B,
+  PORT_C,
   PORT_D,
   PORT_E,
-	PORT_H
+  PORT_H
 };
 /** Режимы пинов In/out/analog/afio Pull Up/Down/No Otype OpenDrain/PushPull */
 enum gpio_pin_modes {
