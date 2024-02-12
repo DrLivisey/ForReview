@@ -8,6 +8,7 @@
  
 #include <stdint.h>
 #include <assert.h>
+#include <errno.h>
 
 #include "uart.h"
 #include "gpio.h"
@@ -63,7 +64,7 @@ void uart_init(struct uart_desc *uart)
         NVIC_EnableIRQ(USART3_IRQn);
         break;
     default:
-        assert(true);
+        return -EINVAL;
         break;
     
   }
@@ -77,23 +78,24 @@ void uart_init(struct uart_desc *uart)
   LL_USART_Init(uart->uart_td, &uart_init_struct);
   LL_USART_ConfigAsyncMode(uart->uart_td);
   LL_USART_Enable(uart->uart_td);
+  return 0;
 }
 
 void uart_tx(struct uart_desc *uart, uint8_t *message)
 {
-  if(LL_USART_IsEnabled(uart->uart_td)) //Проверка включения usartx 
+  if(LL_USART_IsEnabled(uart->uart_td)) //Проверка включения usart 
     LL_USART_TransmitData8(uart->uart_td, *message);
 }
 
 void uart_rx(struct uart_desc *uart, uint8_t *message)
 {
-  if(LL_USART_IsEnabled(uart->uart_td)) //Проверка включения usartx 
+  if(LL_USART_IsEnabled(uart->uart_td)) //Проверка включения usart 
     *message=LL_USART_ReceiveData8(uart->uart_td);
 }
 
 void uart_deinit(struct uart_desc *uart)
 {
-  if(LL_USART_IsEnabled(uart->uart_td)) {  //Проверка включения usartx 
+  if(LL_USART_IsEnabled(uart->uart_td)) {  //Проверка включения usart 
     LL_USART_Disable(uart->uart_td);
     LL_USART_DeInit(uart->uart_td);
   }

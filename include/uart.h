@@ -38,7 +38,7 @@ struct uart_desc {
   *
   * @retval	none
   */
-void uart_init (struct uart_desc *uart);
+int uart_init (struct uart_desc *uart);
 /**
   * @brief	Передача сообщения по выбранному uart
   *
