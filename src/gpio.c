@@ -8,6 +8,8 @@
 
 #include <stdint.h>
 #include <assert.h>
+#include <errno.h>
+
 #include "gpio.h"
 #include "stm32l4xx_ll_rcc.h"
 #include "stm32l4xx_ll_bus.h"
@@ -43,7 +45,7 @@ static const struct {
 	{LL_GPIO_MODE_ALTERNATE,	LL_GPIO_OUTPUT_PUSHPULL,	LL_GPIO_PULL_DOWN},
 };
 
-void gpio_pin_init(struct gpio_pin_desc *pin, enum gpio_pin_port port)
+int gpio_pin_init(struct gpio_pin_desc *pin, enum gpio_pin_port port)
 {	
 	LL_GPIO_InitTypeDef gpio_init_struct = {0};
 	/* В зависимости от enum port включается тактирование необходимого порта*/
@@ -61,7 +63,7 @@ void gpio_pin_init(struct gpio_pin_desc *pin, enum gpio_pin_port port)
 				LL_AHB2_GRP1_EnableClock(LL_AHB2_GRP1_PERIPH_GPIOH);
 				break;
 		default:
-				assert(true);
+				return -EINVAL;
 				break;
 	}
 
@@ -78,21 +80,40 @@ void gpio_pin_init(struct gpio_pin_desc *pin, enum gpio_pin_port port)
 	if(gpio_mode_info[pin->mode].mode == LL_GPIO_MODE_ALTERNATE)
 		gpio_init_struct.Alternate = pin->alternate;
   	LL_GPIO_Init(pin->gpio_td, &gpio_init_struct);
+	return 0;
 }
 
-void gpio_pin_set_state(struct gpio_pin_desc *pin)
-{
-	if(pin->state == BIT_SET)
-		LL_GPIO_SetOutputPin(pin->gpio_td,pin->pin);
-	else if(pin->state == BIT_RESET)
-		LL_GPIO_ResetOutputPin(pin->gpio_td, pin->pin);
+int gpio_pin_set_state(struct gpio_pin_desc *pin)
+{	
+	if(pin->mode == LL_GPIO_MODE_OUTPUT){
+		if(pin->state == BIT_SET)
+			LL_GPIO_SetOutputPin(pin->gpio_td,pin->pin);
+		else if(pin->state == BIT_RESET)
+			LL_GPIO_ResetOutputPin(pin->gpio_td, pin->pin);
+		return 0;
+	}
+	else {
+		return -EACCES;
+	}
 }
 
-bool gpio_pin_read_state(struct gpio_pin_desc *pin)
-{
-	return (LL_GPIO_IsInputPinSet(pin->gpio_td, pin->pin) == BIT_SET ? BIT_SET : BIT_RESET);
+int gpio_pin_read_state(struct gpio_pin_desc *pin)
+{	
+	if (pin->mode == LL_GPIO_MODE_INPUT){
+		pin->state = LL_GPIO_IsInputPinSet(pin->gpio_td, pin->pin) == BIT_SET ? BIT_SET : BIT_RESET;
+		return 0;
+	}
+	else {
+		return -EACCES;
+	}
 }
-void gpio_pin_toggle(struct gpio_pin_desc *pin)
+int gpio_pin_toggle(struct gpio_pin_desc *pin)
 {
-	LL_GPIO_TogglePin(pin->gpio_td, pin->pin);
+	if (pin->mode == LL_GPIO_MODE_OUTPUT){
+		LL_GPIO_TogglePin(pin->gpio_td, pin->pin);
+		return 0;
+	}
+	else{
+		return -EACCES;
+	}
 }

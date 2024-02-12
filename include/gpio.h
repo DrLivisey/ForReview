@@ -72,7 +72,7 @@ struct gpio_pin_desc {
   *
   * @retval	none
   */
-void gpio_pin_init(struct gpio_pin_desc *pin, enum gpio_pin_port port);
+int gpio_pin_init(struct gpio_pin_desc *pin, enum gpio_pin_port port);
 /**
   * @brief	Изменение состояния выходного пина
   *
@@ -80,7 +80,7 @@ void gpio_pin_init(struct gpio_pin_desc *pin, enum gpio_pin_port port);
   *
   * @retval	none
   */
-void gpio_pin_set_state(struct gpio_pin_desc *pin);
+int gpio_pin_set_state(struct gpio_pin_desc *pin);
 /**
   * @brief	Чтение состояния входного пина
   *
@@ -88,7 +88,7 @@ void gpio_pin_set_state(struct gpio_pin_desc *pin);
   *
   * @retval	bool текущее состояние на входе пина
   */
-bool gpio_pin_read_state(struct gpio_pin_desc *pin);
+int gpio_pin_read_state(struct gpio_pin_desc *pin);
 /**
   * @brief	Моргание пином
   *
@@ -96,6 +96,6 @@ bool gpio_pin_read_state(struct gpio_pin_desc *pin);
   *
   * @retval	 none
   */
-void gpio_pin_toggle(struct gpio_pin_desc *pin);
+int gpio_pin_toggle(struct gpio_pin_desc *pin);
 
 #endif /*GPIO_PIN*/

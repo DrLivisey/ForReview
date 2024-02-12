@@ -79,20 +79,19 @@ void uart_init(struct uart_desc *uart)
 
 void uart_tx(struct uart_desc *uart, uint8_t *message)
 {
-  if(LL_USART_IsEnabled(uart->uart_td)) //Проверка включения usartx 
+  if(LL_USART_IsEnabled(uart->uart_td)) //Проверка включения usart 
     LL_USART_TransmitData8(uart->uart_td, *message);
 }
 
 void uart_rx(struct uart_desc *uart, uint8_t *message)
 {
-  if(LL_USART_IsEnabled(uart->uart_td)) //Проверка включения usartx 
+  if(LL_USART_IsEnabled(uart->uart_td)) //Проверка включения usart 
     *message=LL_USART_ReceiveData8(uart->uart_td);
 }
 
 void uart_deinit(struct uart_desc *uart)
 {
-  uint8_t error=-1;
-  if(LL_USART_IsEnabled(uart->uart_td)) {  //Проверка включения usartx 
+  if(LL_USART_IsEnabled(uart->uart_td)) {  //Проверка включения usart 
     LL_USART_Disable(uart->uart_td);
     LL_USART_DeInit(uart->uart_td);
   }
