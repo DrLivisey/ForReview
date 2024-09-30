@@ -1,3 +1,2 @@
-**/build
-**/.ssh
-**/.vscode
+build/
+.vscode/

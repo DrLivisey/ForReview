@@ -1,96 +1,94 @@
-#include <gpio.h>
-/** Структура для поиска необходимых констант режимов работ GPIO*/
-static const struct {
-	uint32_t  mode; /**< Тип GPIO (in/out/analog/afio)*/
-	uint32_t  otype; /**< Тип выхода GPIO (PushPull/OpenDrain)*/
-	uint32_t  pupd; /**< Тип подтяжки (Up/Down/No)*/
+#include <stddef.h>
+#include "gpio.h"
 
-} _gpio_mode_info[] = {
-	{LL_GPIO_MODE_INPUT,	LL_GPIO_OUTPUT_PUSHPULL,	LL_GPIO_PULL_NO},
-	{LL_GPIO_MODE_INPUT,	LL_GPIO_OUTPUT_PUSHPULL,	LL_GPIO_PULL_UP} ,
-	{LL_GPIO_MODE_INPUT,	LL_GPIO_OUTPUT_PUSHPULL,	LL_GPIO_PULL_DOWN},
-
-	{LL_GPIO_MODE_ANALOG,	LL_GPIO_OUTPUT_PUSHPULL,	LL_GPIO_PULL_NO},
-
-	{LL_GPIO_MODE_OUTPUT,	LL_GPIO_OUTPUT_OPENDRAIN,	LL_GPIO_PULL_NO},
-	{LL_GPIO_MODE_OUTPUT,	LL_GPIO_OUTPUT_OPENDRAIN,	LL_GPIO_PULL_UP},
-	{LL_GPIO_MODE_OUTPUT,	LL_GPIO_OUTPUT_OPENDRAIN,	LL_GPIO_PULL_DOWN},
-
-	{LL_GPIO_MODE_OUTPUT,	LL_GPIO_OUTPUT_PUSHPULL ,	LL_GPIO_PULL_NO},
-	{LL_GPIO_MODE_OUTPUT,	LL_GPIO_OUTPUT_PUSHPULL ,	LL_GPIO_PULL_UP},
-	{LL_GPIO_MODE_OUTPUT,	LL_GPIO_OUTPUT_PUSHPULL ,	LL_GPIO_PULL_DOWN},
-
-	{LL_GPIO_MODE_ALTERNATE,	LL_GPIO_OUTPUT_OPENDRAIN,	LL_GPIO_PULL_NO},
-	{LL_GPIO_MODE_ALTERNATE,	LL_GPIO_OUTPUT_OPENDRAIN,	LL_GPIO_PULL_UP},
-	{LL_GPIO_MODE_ALTERNATE,	LL_GPIO_OUTPUT_OPENDRAIN,	LL_GPIO_PULL_DOWN},
-
-	{LL_GPIO_MODE_ALTERNATE,	LL_GPIO_OUTPUT_PUSHPULL,	LL_GPIO_PULL_NO},
-	{LL_GPIO_MODE_ALTERNATE,	LL_GPIO_OUTPUT_PUSHPULL,	LL_GPIO_PULL_UP},
-	{LL_GPIO_MODE_ALTERNATE,	LL_GPIO_OUTPUT_PUSHPULL,	LL_GPIO_PULL_DOWN},
-};
-
-void GPIO_pin_Init(struct gpio_pin *pin, enum port_gpio port)
-{	
-	LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
-	/* В зависимости от enum port включается тактирование необходимого порта*/
-	switch (port){
-		case PORT_A:
-		{
-			LL_AHB2_GRP1_EnableClock(LL_AHB2_GRP1_PERIPH_GPIOA);
-			break;
-		}
-		case PORT_B:
-		{
-			LL_AHB2_GRP1_EnableClock(LL_AHB2_GRP1_PERIPH_GPIOB);
-			break;
-		}
-		case PORT_C:
-		{
-			LL_AHB2_GRP1_EnableClock(LL_AHB2_GRP1_PERIPH_GPIOC);
-			break;
-		}
-		case PORT_H:
-		{
-			LL_AHB2_GRP1_EnableClock(LL_AHB2_GRP1_PERIPH_GPIOH);
-			break;
-		}
-		default:
-			break;
-	}
-
-  	GPIO_InitStruct.Pin = pin->pin;
-  	GPIO_InitStruct.Mode = _gpio_mode_info[pin->mode].mode;
-  	GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_VERY_HIGH;
-	GPIO_InitStruct.Pull = _gpio_mode_info[pin->mode].pupd;
-	/*Если инициализируется выходной пин, выставляется тип выхода и его стартовое значение*/	
-	if(_gpio_mode_info[pin->mode].mode== LL_GPIO_MODE_OUTPUT)
-	{
-  		GPIO_InitStruct.OutputType = _gpio_mode_info[pin->mode].otype;
-		SetPinState(pin);
-	}
-	/*Если Инициализируется альтернативная функция, записывается номер альтернативной функции*/
-	if(_gpio_mode_info[pin->mode].mode == LL_GPIO_MODE_ALTERNATE)
-	{
-		GPIO_InitStruct.Alternate = pin->Alternate;
-	}
-  	LL_GPIO_Init(pin->gpio, &GPIO_InitStruct);
-	
-   
-}
-
-void SetPinState(struct gpio_pin *pin){
-	if(pin->state == Bit_SET){
-		LL_GPIO_SetOutputPin(pin->gpio,pin->pin);
-	}
-	else if(pin->state == Bit_RESET){
-		LL_GPIO_ResetOutputPin(pin->gpio, pin->pin);
+void gpio_ports_enable_clock(bool enable)
+{
+	if (enable) {
+		LL_AHB2_GRP1_EnableClock(LL_AHB2_GRP1_PERIPH_GPIOA);
+		LL_AHB2_GRP1_EnableClock(LL_AHB2_GRP1_PERIPH_GPIOB);
+		LL_AHB2_GRP1_EnableClock(LL_AHB2_GRP1_PERIPH_GPIOC);
+		LL_AHB2_GRP1_EnableClock(LL_AHB2_GRP1_PERIPH_GPIOH);
+	} else {
+		LL_AHB2_GRP1_DisableClock(LL_AHB2_GRP1_PERIPH_GPIOA);
+		LL_AHB2_GRP1_DisableClock(LL_AHB2_GRP1_PERIPH_GPIOB);
+		LL_AHB2_GRP1_DisableClock(LL_AHB2_GRP1_PERIPH_GPIOC);
+		LL_AHB2_GRP1_DisableClock(LL_AHB2_GRP1_PERIPH_GPIOH);
 	}
 }
 
-bool read_gpio_pin_state(struct gpio_pin *pin){
-	/*Считывается значение с пина и возвращается в качестве вывода функции в зависимости от полученного значения*/
-	return (LL_GPIO_IsInputPinSet(pin->gpio, pin->pin) == Bit_SET ? Bit_SET : Bit_RESET);
+void gpio_add_chip(struct gpio_chip *new_chip, struct gpio_chip *chip)
+{
+	int task_done = 0;
+	for (int i = 0; i < 15 && task_done; i++) {
+		if (chip->chip_list.next == NULL) {
+			chip->chip_list.next = new_chip;
+			new_chip->chip_list.prev = chip;
+			task_done = 1;
+		} else { 
+			chip = chip->chip_list.next;
+		}
+	}
 }
-void toggle_Pin(struct gpio_pin *pin){
-	LL_GPIO_TogglePin(pin->gpio, pin->pin);
+
+void gpio_port_pin_setup(struct gpio_desc *desc)
+{
+	LL_GPIO_InitTypeDef GPIO_InitStruct = {	
+		.Pin = desc->pin,
+		.Mode = desc->gpio_pin_parameters.mode,
+		.Speed = LL_GPIO_SPEED_FREQ_VERY_HIGH,
+		.OutputType = desc->gpio_pin_parameters.output_type,
+		.Pull = desc->gpio_pin_parameters.pull,
+		.Alternate = desc->gpio_pin_parameters.alternate
+	};
+	LL_GPIO_Init(desc->gpio_chip->gpiodev, &GPIO_InitStruct);
+}
+
+void gpio_port_set_pin_state(struct gpio_desc *desc, bool value)
+{
+	if (value)
+		LL_GPIO_SetOutputPin(desc->gpio_chip->gpiodev, desc->pin);
+	else 
+		LL_GPIO_ResetOutputPin(desc->gpio_chip->gpiodev, desc->pin);
+}
+
+bool gpio_port_get_pin_state(struct gpio_desc *desc)
+{
+	return (LL_GPIO_IsInputPinSet(desc->gpio_chip->gpiodev, desc->pin) == BIT_SET ? BIT_SET : BIT_RESET);
+}
+
+void gpio_port_direction_output(struct gpio_desc *desc)
+{
+	desc->gpio_pin_parameters.mode = LL_GPIO_MODE_OUTPUT;
+	LL_GPIO_SetPinMode(desc->gpio_chip->gpiodev, desc->pin, desc->gpio_pin_parameters.mode);
+}
+
+void gpio_port_direction_input(struct gpio_desc *desc)
+{
+	desc->gpio_pin_parameters.mode = LL_GPIO_MODE_INPUT;
+	LL_GPIO_SetPinMode(desc->gpio_chip->gpiodev, desc->pin, desc->gpio_pin_parameters.mode);
+}
+
+void gpio_exp_pin_setup(struct gpio_desc desc)
+{
+
+}
+
+void gpio_exp_set_pin_state(struct gpio_desc desc, bool value)
+{
+
+}
+
+bool gpio_exp_get_pin_state(struct gpio_desc desc)
+{
+	return true;
+}
+
+void gpio_exp_direction_output(struct gpio_desc desc)
+{
+
+}
+
+void gpio_exp_direction_input(struct gpio_desc desc)
+{
+
 }
